@@ -6,23 +6,19 @@ from utils.logger import get_logger
 
 logger = get_logger("config")  # Logger identificado como "config" en cada línea del log
 
-
 class Settings(BaseSettings):
-    """
-    Lee el archivo .env y valida que todas las variables existan.
-    Si falta alguna, el pipeline falla aquí antes de ejecutar cualquier cosa.
-    """
 
-    DB_URL: str          # Cadena de conexión a PostgreSQL
-    RAW_DATA_PATH: str   # Ruta a la carpeta con los CSVs
-    LOGS_PATH: str       # Ruta a la carpeta de logs
-    TRIGGERED_BY: str    # Quién ejecuta el pipeline: local | airflow
+    db_url          : str  # Cadena de conexión a PostgreSQL
+    raw_data_path   : str  # Ruta a la carpeta con los CSVs
+    logs_path       : str  # Ruta a la carpeta de logs
+    triggered_by    : str  # Quién ejecuta el pipeline: local | airflow
 
     model_config = SettingsConfigDict(
-        env_file=Path(__file__).resolve().parent.parent / ".env",  # Busca .env en etl/
-        env_file_encoding="utf-8"
+        env_file=Path(__file__).resolve().parent.parent / ".env",
+        env_file_encoding="utf-8-sig",  # utf-8-sig elimina el BOM automáticamente
+        case_sensitive=False,
+        extra="ignore"
     )
-
 
 def get_engine(settings: Settings) -> Engine:
     """
@@ -31,7 +27,7 @@ def get_engine(settings: Settings) -> Engine:
     Salida  : Engine listo para usar en cualquier script
     """
     engine = create_engine(
-        settings.DB_URL,
+        settings.db_url,
         pool_size=5,       # Conexiones simultáneas disponibles
         max_overflow=10,   # Conexiones extra si el pool está lleno
         pool_pre_ping=True # Verifica que la conexión esté viva antes de usarla

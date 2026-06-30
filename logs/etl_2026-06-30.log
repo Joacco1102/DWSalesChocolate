@@ -1,0 +1,4 @@
+2026-06-30 17:54:03 | CRITICAL | config                    | Fallo de conexión a PostgreSQL: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2026-06-30 17:55:08 | CRITICAL | config                    | Fallo de conexión a PostgreSQL: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2026-06-30 17:55:54 | CRITICAL | config                    | Fallo de conexión a PostgreSQL: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2026-06-30 18:19:05 | INFO     | config                    | Conexión a PostgreSQL exitosa
